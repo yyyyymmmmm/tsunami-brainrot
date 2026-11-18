@@ -1,21 +1,30 @@
-# roblox-brainrot-01 starter
+# Tsunami Brainrot Bay
 
-A working entry for make.fun's "Make the best AI Roblox brainrot game" bounty (roblox-brainrot-01), laid out as your
-repository: a Rojo project whose game is a grey square that moves with the arrow keys. It is a starting point, not a
-winner, and not yet the 3D game the bounty asks for: its square is drawn on the screen, not in Roblox's 3D world.
+An entry for make.fun's "Make the best AI Roblox brainrot game" bounty (roblox-brainrot-01): a 3D
+brainrot collector in the Steal-a-Brainrot genre, set on a tropical island bay.
 
-- `main.ts` (Node 22, standard library only) hands the game in: it copies `game.rbxl`, `src/`, `screenshots/` and
-  `PLAY.json` to `/output`, leaving out every name that starts with a dot (such as `.gitkeep` or `.DS_Store`, which
-  fail an entry), and writes `/output/dossier.json` with `vendor/makefun-roblox.ts`, the kit's copy, unchanged.
-- `game.rbxl` is the place Rojo builds from `src/` and `default.project.json`; `screenshots/` holds three captures of
-  it; `PLAY.json` names no place yet, so the gate refuses the starter as it stands until it names your published one.
-- One of your screenshots must also be your game's first thumbnail on Roblox: the same picture, uploaded on the
-  Creator Dashboard with your game's icon.
-- `TOUR.json` is an example of the optional tour: for each screenshot, the keys that bring the game to that screen.
+Brainrot characters wander the grass field. Walk into one to grab it, carry it home to your base's
+glowing bank pad, and it stands on a display pad paying you cash every second. Spend cash at the egg
+machine for a random hatch across five rarities (Common, Rare, Epic, Legendary, Mythic), climb the
+cast ladder from Patatino Fritto to Galassia Gelatina, and rebirth at the shrine for a permanent
+income multiplier. Every couple of minutes a tsunami sweeps the bay: caught out in the open, you
+lose the character you are carrying and wash up back at spawn. Banked characters are safe.
 
-Run it as the grader does, writing `out/` in place of `/output`:
+- `main.ts` (Node 22, standard library only) hands the game in: it copies `game.rbxl`, `src/`,
+  `screenshots/` and `PLAY.json` to `/output` and writes `/output/dossier.json` with
+  `vendor/makefun-roblox.ts`, the kit's copy, unchanged.
+- `game.rbxl` is the binary place Rojo builds from `src/` and `default.project.json`:
+  `rojo build default.project.json --output game.rbxl`. The world itself is built at runtime by the
+  server scripts, so the whole game lives in the Luau under `src/`:
+  - `src/server/CharacterData.luau` - the twelve-character cast, the rarity ladder, tuning.
+  - `src/server/WorldBuilder.luau` - island, water, palms, bases, egg machine, rebirth shrine.
+  - `src/server/CharacterFactory.luau` - builds each creature from parts, with its name label.
+  - `src/server/GameManager.luau` - spawning, wandering, grabbing, banking, income, eggs,
+    rebirths and the tsunami; all game state lives here.
+  - `src/server/init.server.luau` - wires the modules together and starts the game.
+  - `src/client/Game.client.luau` - the HUD: cash, income, carried indicator, toasts, tsunami banner.
+- `PLAY.json` names the published Roblox place; it is filled in when the game is published.
+
+Run the hand-in locally, writing `out/` in place of `/output`:
 
     mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-
-The rules are on the bounty's page (/bounty/roblox-brainrot-01) and in the kit's RULES.txt,
-which gives every command in order (Before you submit, then Enter).

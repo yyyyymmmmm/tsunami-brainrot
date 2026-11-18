@@ -18,8 +18,19 @@ import { basename, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-roblox.ts';
 
+// Tsunami Brainrot Bay: a tropical island where brainrot characters wander
+// the grass, players carry them home to a base that pays cash every second,
+// an egg machine sells random hatches, and a tsunami sweeps the field every
+// couple of minutes. The game itself is the Luau under src/, built into
+// game.rbxl by Rojo; this program is only the courier that hands it in.
+const GAME_TITLE = 'Tsunami Brainrot Bay';
+
 const here = fileURLToPath(new URL('.', import.meta.url));
 const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+
+if (!existsSync(join(here, 'game.rbxl'))) {
+  throw new Error(`${GAME_TITLE}: game.rbxl is missing - build it first with: rojo build default.project.json --output game.rbxl`);
+}
 
 /** cpSync's filter: leave out every file and directory whose name starts with a dot (.gitkeep, .DS_Store, .git). */
 const notDotted = (path: string): boolean => !basename(path).startsWith('.');
